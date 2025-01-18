@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+}
+
+form {
+    width: 50%;
+    margin: auto;
+}
+
+.tab {
+    display: none;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.error {
+    color: red;
+    display: block;
+}
+
+    </style>
+</head>
+<body>
+    <form id="registrationForm">
+        <div class="tab">
+            <h2>Personal Information</h2>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname">
+            <span class="error" id="fnameError"></span>
+
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname">
+            <span class="error" id="lnameError"></span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <span class="error" id="emailError"></span>
+            
+            
+        </div>
+        
+        <div class="tab">
+            <h2>Account Details</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+            <span class="error" id="usernameError"></span>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <span class="error" id="passwordError"></span>
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword">
+            <span class="error" id="confirmPasswordError"></span>
+        </div>
+        
+        <div style="overflow:auto;">
+            <div style="float:right;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+        </div>
+    </form>
+
+    <script src="script.js"></script>
+
+    <script>
+        let currentTab = 0;
+showTab(currentTab);
+
+function showTab(n) {
+    const tabs = document.getElementsByClassName("tab");
+    tabs[n].style.display = "block";
+    document.getElementById("prevBtn").style.display = n == 0 ? "none" : "inline";
+    document.getElementById("nextBtn").innerHTML = n == (tabs.length - 1) ? "Submit" : "Next";
+}
+
+function nextPrev(n) {
+    const tabs = document.getElementsByClassName("tab");
+    if (n == 1 && !validateForm()) return false;
+    tabs[currentTab].style.display = "none";
+    currentTab = currentTab + n;
+    if (currentTab >= tabs.length) {
+        document.getElementById("registrationForm").submit();
+        return false;
+    }
+    showTab(currentTab);
+}
+
+function validateForm() {
+    let valid = true;
+    const tab = document.getElementsByClassName("tab")[currentTab];
+    const inputs = tab.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value == "") {
+            inputs[i].className += " invalid";
+            document.getElementById(inputs[i].id + "Error").innerText = "This field is required";
+            valid = false;
+        } else {
+            document.getElementById(inputs[i].id + "Error").innerText = "";
+        }
+    }
+
+    if (currentTab == 1) {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword) {
+            document.getElementById("confirmPasswordError").innerText = "Passwords do not match";
+            valid = false;
+        }
+    }
+
+    return valid;
+}
+
+    </script>
+</body>
+</html>

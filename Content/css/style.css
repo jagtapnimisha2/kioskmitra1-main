@@ -1,0 +1,23 @@
+.content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+.content-wrapper .image-side {
+    flex: 1 1 50%;
+}
+.content-wrapper .text-side {
+    flex: 1 1 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.text-side h2, .text-side p {
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .content-wrapper .image-side, 
+    .content-wrapper .text-side {
+        flex: 1 1 100%;
+    }
+}
